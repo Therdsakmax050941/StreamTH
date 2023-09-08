@@ -17,14 +17,14 @@ if (isset($_GET['productid']) && is_numeric($_GET['productid'])) {
       'stock_status' => "instock"
     ];
     $woocommerce->put('products/' . $productid, $data);
-    $redirect_url = '../pages/package.php';
+    $redirect_url = '../pages/package.php?treeview=3.1&menu=3';
     $message = 'สินค้าถูกเปิดใช้งานสำเร็จ';
   } else {
     $data = [
       'stock_status' => "outofstock"
     ];
     $woocommerce->put('products/' . $productid, $data);
-    $redirect_url = '../pages/package.php';
+    $redirect_url = '../pages/package.php?treeview=3.1&menu=3';
     $message = 'สินค้าถูกปิดใช้งานสำเร็จ';
   }
 
@@ -36,7 +36,7 @@ if (isset($_GET['productid']) && is_numeric($_GET['productid'])) {
   echo "  timer: 2000,"; // แสดง SweetAlert ในเวลา 2 วินาที
   echo "  showConfirmButton: false"; // ไม่แสดงปุ่ม "OK" ใน SweetAlert
   echo "}, function() {";
-  echo "  window.location.href = '../pages/package.php';"; // เมื่อหมดเวลา ให้เปลี่ยนหน้าไปที่ '../pages/package.php'
+  echo "  window.location.href = '../pages/package.php?treeview=3.1&menu=3';"; // เมื่อหมดเวลา ให้เปลี่ยนหน้าไปที่ '../pages/package.php'
   echo "});";
   echo "</script>";
 } else {

@@ -14,7 +14,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // รับค่าที่ส่งมาจากฟอร์ม
         $username = $_POST['username'];
-        $password = $_POST['password'];
+        $password = md5($_POST['password']);
         $status = $_POST['status'];
 
         // เชื่อมต่อกับฐานข้อมูล

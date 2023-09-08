@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_GET['user'])) {
-  $_SESSION['name'] = sha1($_GET['user']);
+  $_SESSION['name'] = $_GET['user'];
 }
 if (isset($_SESSION['name'])) {
   $encodedUser = $_SESSION['name'];
@@ -36,6 +36,7 @@ if (isset($_SESSION['name'])) {
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <script src="jquery-3.6.4.min.js"></script>
   <link rel="stylesheet" href="dist/css/adminlte.min.css?v=3.2.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script defer="" referrerpolicy="origin" src="/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyQWRtaW5MVEUlMjAzJTIwJTdDJTIwRGFzaGJvYXJkJTIwMyUyMiUyQyUyMnglMjIlM0EwLjc1OTMzMTU1MzE1MTI4NzYlMkMlMjJ3JTIyJTNBMTA4MCUyQyUyMmglMjIlM0ExOTIwJTJDJTIyaiUyMiUzQTE4MTUlMkMlMjJlJTIyJTNBMTA4MCUyQyUyMmwlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmFkbWlubHRlLmlvJTJGdGhlbWVzJTJGdjMlMkZpbmRleDMuaHRtbCUyMiUyQyUyMnIlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmFkbWlubHRlLmlvJTJGdGhlbWVzJTJGdjMlMkZpbmRleDIuaHRtbCUyMiUyQyUyMmslMjIlM0EyNCUyQyUyMm4lMjIlM0ElMjJVVEYtOCUyMiUyQyUyMm8lMjIlM0EtNDIwJTJDJTIycSUyMiUzQSU1QiU1RCU3RA=="></script>
   <script nonce="71e54950-964b-4269-8645-a67d011bf720">
     (function(w, d) {
@@ -146,6 +147,10 @@ if (isset($_SESSION['name'])) {
       left: 0;
       top: 0
     }
+
+    h5 {
+      color: white;
+    }
   </style>
 </head>
 
@@ -160,22 +165,19 @@ if (isset($_SESSION['name'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="../pages/dashboard.php?menu=1" class="brand-link">
-        <span class="brand-text font-weight-light">Admin Streaming World</span>
-      </a>
+      <h3 class="brand-text font-weight-light"><b class="brand-link">Admin Streaming World</b></h3>
 
       <!-- Sidebar -->
       <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="../image/user1.png" class="img-circle elevation-2" alt="User Image">
+            <h5><?php echo strtoupper($_SESSION['name']); ?></h5>
           </div>
           <div class="info">
-            <a href="#" class="d-block"><?php echo $_SESSION['name']; ?></a>
 
           </div>
-          <a href="../Back-End/logout.php" type="button" class="btn btn-outline-danger">
+          <a href="../Back-End/logout.php" type="button" class="btn btn-outline-danger align-self-end">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"></path>
               <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
@@ -213,8 +215,8 @@ if (isset($_SESSION['name'])) {
             </li>
             <!-- การจัดการรวม -->
             <li class="nav-item <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
-                                            echo 'menu-is-opening menu-open';
-                                          } ?>">
+                                  echo 'menu-is-opening menu-open';
+                                } ?>">
               <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
                                             echo 'active';
                                           } ?> ">
@@ -227,25 +229,27 @@ if (isset($_SESSION['name'])) {
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./package.php?treeview=1&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 1) {
-                                            echo 'active';
-                                          } ?>">
+                  <a href="./package.php?treeview=3.1&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.1) {
+                                                                                echo 'active';
+                                                                              } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>จัดการ Package</p>
                     <span class="badge badge-info right">2</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../pages/order.php?treeview=2&menu=3" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 2) {
-                                            echo 'active';
-                                          } ?>">
+                  <a href="../pages/order.php?treeview=3.2&menu=3" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.2) {
+                                                                                      echo 'active';
+                                                                                    } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Order</p>
                     <span class="badge badge-info right">2</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="../pages/order.php?treeview=3&menu=3" class="nav-link">
+                  <a href="../Back-End/line/check_login.php?treeview=3.3&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.3) {
+                                                                                                    echo 'active';
+                                                                                                  } ?> ">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Broadcast Message</p>
                   </a>
@@ -269,14 +273,18 @@ if (isset($_SESSION['name'])) {
             <!-- End การจัดการร่วม -->
             <!-- การจัดการรวม -->
             <li class="nav-item <?php if (isset($_GET['menu']) && $_GET['menu'] == 4) {
-                                            echo 'menu-is-opening menu-open';
-                                          } ?>">
+                                  echo 'menu-is-opening menu-open';
+                                } ?>">
               <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 4) {
                                             echo 'active';
                                           } ?> ">
-                <i class="far bi bi-person-vcard-fill nav-icon"></i>
+                <i class="far bi bi-archive nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
+                    <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                </i>
                 <p>
-                Customer
+                  เกี่ยวกับลูกค้า
                   <i class="fas fa-angle-left right"></i>
                   <span class="badge badge-info right">12</span>
                 </p>
@@ -284,8 +292,8 @@ if (isset($_SESSION['name'])) {
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="./package.php?treeview2=1&menu=4" class="nav-link <?php if (isset($_GET['treeview2']) && $_GET['treeview2'] == 1) {
-                                            echo 'active';
-                                          } ?>">
+                                                                                echo 'active';
+                                                                              } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>ประวัติการสั่งสมาชิก</p>
                     <span class="badge badge-info right">2</span>
@@ -293,8 +301,8 @@ if (isset($_SESSION['name'])) {
                 </li>
                 <li class="nav-item">
                   <a href="../pages/order.php?treeview2=2&menu=4" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 2) {
-                                            echo 'active';
-                                          } ?>">
+                                                                                      echo 'active';
+                                                                                    } ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>NULL</p>
                     <span class="badge badge-info right">2</span>
@@ -314,8 +322,8 @@ if (isset($_SESSION['name'])) {
                   </a>
                 </li>
               </ul>
-            <!-- End การจัดการร่วม -->
-            <!-- การจัดการ Users Admin -->
+              <!-- End การจัดการร่วม -->
+              <!-- การจัดการ Users Admin -->
             <li class="nav-item">
               <a href="../pages/users_admin.php?menu=2" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 2) {
                                                                           echo 'active';

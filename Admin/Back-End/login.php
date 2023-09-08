@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // เรียกใช้ฟังก์ชัน login และตรวจสอบผลลัพธ์
     $loginResult = login($username, $password);
-    $usernamemd5 = sha1($username);
+    
     if ($loginResult === true) {
         echo '<script>
-                window.location.href = "../pages/dashboard.php?user='.$usernamemd5.'";
+                window.location.href = "../pages/dashboard.php?user='.$username.'";
               </script>';
         exit();
     } elseif ($loginResult === false) {
@@ -28,14 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-// ฟังก์ชัน login ตัวอย่าง (คุณต้องเปลี่ยนแปลงเนื้อหาให้เหมาะสมกับระบบของคุณ)
-// ฟังก์ชัน login ตัวอย่าง (คุณต้องเปลี่ยนแปลงเนื้อหาให้เหมาะสมกับระบบของคุณ)
-// ฟังก์ชัน login
+
 function login($username, $password)
 {
     // เชื่อมต่อกับฐานข้อมูล
     $conn = connect_db();
-
     // ตรวจสอบว่ามีผู้ใช้ที่ใช้ username ที่ระบุหรือไม่
     $sql = "SELECT * FROM admin_user WHERE username = '$username'";
     $result = $conn->query($sql);
@@ -54,7 +51,7 @@ function login($username, $password)
         }
 
         // เปรียบเทียบรหัสผ่านที่ถูกเข้ารหัสแบบ SHA1
-        if (sha1($password) === $user['password']) {
+        if (md5($password) === $user['password']) {
             return true;
         } else {
             // รหัสผ่านไม่ถูกต้อง แสดง SweetAlert2 และเปลี่ยนเส้นทางไปยังหน้า login.php

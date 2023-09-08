@@ -100,29 +100,55 @@ function displayOrderTable($orders, $itemsPerPage = 6)
 
                 for ($i = $startIndex; $i < $endIndex; $i++) {
                     $order = $orders[$i];
+                    //Checks status = on hold
+                    if ($order->status === 'on-hold') {
                 ?>
-                    <tr>
-                        <td><?php echo $order->id; ?></td>
-                        <td><?php echo $order->order_key; ?></td>
-                        <td><?php echo $order->billing->first_name . ' ' . $order->billing->last_name; ?></td>
-                        <td><?php echo $order->total; ?></td>
-                        <td><?php echo $order->status; ?></td>
-                        <td>
-                            <!-- ตัวอย่างปุ่มแก้ไขและลบ -->
-                            <a href="../Back-End/update_order_status.php?orderid=<?php echo $order->id; ?>&new_status=completed" class="btn btn-success">
-                                อนุมัติ
-                            </a>
-                            <a href="#" class="btn btn-info btn-view" data-toggle="modal" data-target="#viewModal" data-order-id="<?php echo $order->id; ?>">
+
+                        <tr>
+                            <td><?php echo $order->id; ?></td>
+                            <td><?php echo $order->order_key; ?></td>
+                            <td><?php echo $order->billing->first_name . ' ' . $order->billing->last_name; ?></td>
+                            <td><?php echo $order->total; ?></td>
+                            <td><?php echo $order->status; ?></td>
+                            <td>
+                                <!-- ตัวอย่างปุ่มแก้ไขและลบ -->
+                                <a href="../Back-End/order/add_status.php?orderid=<?php echo $order->id; ?>" class="btn btn-success">
+                                    อนุมัติ
+                                </a>
+                                <!-- modal  -->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $order->id; ?>">
                                 <i class="fa fa-search"></i>
-                            </a>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal<?php echo $order->id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">รายละเอียด</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <label>เลขออเดอร์ :</label> <?php echo $order->id; ?> <br>
+                                            <label>ชื่อ :</label><?php echo $order->billing->first_name . ' ' . $order->billing->last_name; ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
-                            <a href="../Back-End/delete_order.php?orderid=<?php echo $order->id; ?>" class="btn btn-danger btn-delete">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
+                                <a href="../Back-End/delete_order.php?orderid=<?php echo $order->id; ?>" class="btn btn-danger btn-delete">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
                 <?php
+                    }
                 }
                 ?>
             </tbody>
