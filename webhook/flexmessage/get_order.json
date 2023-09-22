@@ -1,0 +1,66 @@
+{
+    "type": "bubble",
+    "size": "giga",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "image",
+          "url": "https://www.streamth.co/wp-content/uploads/2023/09/FM_GF_002.jpg",
+          "aspectMode": "cover",
+          "size": "full",
+          "position": "absolute",
+          "offsetTop": "0px",
+          "offsetBottom": "0px",
+          "offsetEnd": "0px",
+          "offsetStart": "0px",
+          "aspectRatio": "1.5:1"
+        },
+        {
+          "type": "text",
+          "text": "แจ้งหมายเลข Order",
+          "weight": "regular",
+          "size": "xl",
+          "margin": "md",
+          "align": "center",
+          "offsetTop": "245px",
+          "position": "relative"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": "ตัวอย่าง  :  ",
+              "align": "center",
+              "offsetTop": "md",
+              "color": "#c3c3c3",
+              "size": "md"
+            },
+            {
+              "type": "image",
+              "url": "https://streamth.co/webhook/image_logo/example_order.jpg",
+              "size": "full",
+              "aspectMode": "fit",
+              "align": "center",
+              "gravity": "center",
+              "offsetEnd": "xxl"
+            }
+          ],
+          "backgroundColor": "#FFFFFF",
+          "borderWidth": "1px",
+          "borderColor": "#b7b7b7",
+          "cornerRadius": "4px",
+          "margin": "md",
+          "height": "40px",
+          "offsetTop": "248px",
+          "width": "300px"
+        }
+      ],
+      "spacing": "20px",
+      "margin": "20px",
+      "height": "380px"
+    }
+  }

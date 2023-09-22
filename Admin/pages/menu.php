@@ -151,6 +151,18 @@ if (isset($_SESSION['name'])) {
     h5 {
       color: white;
     }
+    /* CSS สำหรับปุ่ม Logout */
+    .btn-logout {
+        width: 100%;
+        color: #dc3545;
+        background-color: #313131;
+        margin-top:450px; /* กำหนดระยะห่างด้านบนของปุ่ม */
+    }
+
+    .btn-logout:hover {
+        background-color: white;
+        color: gray;
+    }
   </style>
 </head>
 
@@ -165,38 +177,15 @@ if (isset($_SESSION['name'])) {
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <h3 class="brand-text font-weight-light"><b class="brand-link">Admin Streaming World</b></h3>
+      <br>
+      <div class="text-center margin-bottom">
+      <img src="../image/favicon.ico" width="80px" style="border: 1px solid ; border-radius: 30%;">
+      <br>
+    </div>
 
       <!-- Sidebar -->
       <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-          <div class="image">
-            <h5><?php echo strtoupper($_SESSION['name']); ?></h5>
-          </div>
-          <div class="info">
-
-          </div>
-          <a href="../Back-End/logout.php" type="button" class="btn btn-outline-danger align-self-end">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"></path>
-              <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"></path>
-            </svg>
-          </a>
-        </div>
-
-        <!-- SidebarSearch Form -->
-        <div class="form-inline">
-          <div class="input-group" data-widget="sidebar-search">
-            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-sidebar">
-                <i class="fas fa-search fa-fw"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -213,126 +202,67 @@ if (isset($_SESSION['name'])) {
                 </p>
               </a>
             </li>
-            <!-- การจัดการรวม -->
-            <li class="nav-item <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
-                                  echo 'menu-is-opening menu-open';
-                                } ?>">
-              <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
-                                            echo 'active';
-                                          } ?> ">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                  การจัดการรวม
-                  <i class="fas fa-angle-left right"></i>
-                  <span class="badge badge-info right">12</span>
-                </p>
+
+            <li class="nav-item">
+              <a href="./package.php?menu=3" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 2) {
+                                                                echo 'active';
+                                                              } ?>">
+                <i class="far  nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings" viewBox="0 0 16 16">
+                    <path d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022ZM6 8.694 1 10.36V15h5V8.694ZM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15Z" />
+                    <path d="M2 11h1v1H2v-1Zm2 0h1v1H4v-1Zm-2 2h1v1H2v-1Zm2 0h1v1H4v-1Zm4-4h1v1H8V9Zm2 0h1v1h-1V9Zm-2 2h1v1H8v-1Zm2 0h1v1h-1v-1Zm2-2h1v1h-1V9Zm0 2h1v1h-1v-1ZM8 7h1v1H8V7Zm2 0h1v1h-1V7Zm2 0h1v1h-1V7ZM8 5h1v1H8V5Zm2 0h1v1h-1V5Zm2 0h1v1h-1V5Zm0-2h1v1h-1V3Z" />
+                  </svg></i>
+                <p>จัดการ Package</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="./package.php?treeview=3.1&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.1) {
-                                                                                echo 'active';
-                                                                              } ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>จัดการ Package</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="../pages/order.php?treeview=3.2&menu=3" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.2) {
-                                                                                      echo 'active';
-                                                                                    } ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Order</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="../Back-End/line/check_login.php?treeview=3.3&menu=3" class="nav-link <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 3.3) {
-                                                                                                    echo 'active';
-                                                                                                  } ?> ">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Broadcast Message</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>กำลังจะหมดอายุ</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Slip</p>
-                    <span class="badge badge-info right">6</span>
-                  </a>
-                </li>
-              </ul>
             </li>
-            <!-- End การจัดการร่วม -->
-            <!-- การจัดการรวม -->
-            <li class="nav-item <?php if (isset($_GET['menu']) && $_GET['menu'] == 4) {
-                                  echo 'menu-is-opening menu-open';
-                                } ?>">
+            <li class="nav-item">
+              <a href="../Back-End/line/check_login.php?menu=3" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 3) {
+                                                                                  echo 'active';
+                                                                                } ?> ">
+                <i class="far  nav-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-fill" viewBox="0 0 16 16">
+                    <path d="M14 0a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z" />
+                  </svg></i>
+                <p>Broadcast Message</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 4) {
                                             echo 'active';
-                                          } ?> ">
-                <i class="far bi bi-archive nav-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16">
-                    <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                  </svg>
-                </i>
-                <p>
-                  เกี่ยวกับลูกค้า
-                  <i class="fas fa-angle-left right"></i>
-                  <span class="badge badge-info right">12</span>
-                </p>
+                                          } ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>กำลังจะหมดอายุ</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="./package.php?treeview2=1&menu=4" class="nav-link <?php if (isset($_GET['treeview2']) && $_GET['treeview2'] == 1) {
-                                                                                echo 'active';
-                                                                              } ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>ประวัติการสั่งสมาชิก</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="../pages/order.php?treeview2=2&menu=4" class="nav-link  <?php if (isset($_GET['treeview']) && $_GET['treeview'] == 2) {
-                                                                                      echo 'active';
-                                                                                    } ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>NULL</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="../pages/order.php?treeview2=3&menu=4" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>NULL</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>กำลังจะหมดอายุ</p>
-                    <span class="badge badge-info right">2</span>
-                  </a>
-                </li>
-              </ul>
-              <!-- End การจัดการร่วม -->
-              <!-- การจัดการ Users Admin -->
+            </li>
             <li class="nav-item">
-              <a href="../pages/users_admin.php?menu=2" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 2) {
+              <a href="#" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 5) {
+                                            echo 'active';
+                                          } ?>">
+                <i class="far  nav-icon"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt-cutoff" viewBox="0 0 16 16">
+                    <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zM11.5 4a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1h-1z" />
+                    <path d="M2.354.646a.5.5 0 0 0-.801.13l-.5 1A.5.5 0 0 0 1 2v13H.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H15V2a.5.5 0 0 0-.053-.224l-.5-1a.5.5 0 0 0-.8-.13L13 1.293l-.646-.647a.5.5 0 0 0-.708 0L11 1.293l-.646-.647a.5.5 0 0 0-.708 0L9 1.293 8.354.646a.5.5 0 0 0-.708 0L7 1.293 6.354.646a.5.5 0 0 0-.708 0L5 1.293 4.354.646a.5.5 0 0 0-.708 0L3 1.293 2.354.646zm-.217 1.198.51.51a.5.5 0 0 0 .707 0L4 1.707l.646.647a.5.5 0 0 0 .708 0L6 1.707l.646.647a.5.5 0 0 0 .708 0L8 1.707l.646.647a.5.5 0 0 0 .708 0L10 1.707l.646.647a.5.5 0 0 0 .708 0L12 1.707l.646.647a.5.5 0 0 0 .708 0l.509-.51.137.274V15H2V2.118l.137-.274z" />
+                  </svg></i>
+                <p>Slip</p>
+              </a>
+            </li>
+            <!-- การจัดการ Users Admin -->
+            <li class="nav-item">
+              <a href="../pages/users_admin.php?menu=2" class="nav-link <?php if (isset($_GET['menu']) && $_GET['menu'] == 6) {
                                                                           echo 'active';
                                                                         } ?>">
-                <i class="nav-icon far fa-plus-square"></i>
+                <i class="nav-icon far "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z" />
+                  </svg></i>
                 <p>
-                  การจัดการ Users Admin
+                  Admin
                 </p>
               </a>
             </li>
+            <div class="sidebar-menu">
+              <!-- เมนูอื่น ๆ ที่อยู่ข้างบน -->
+
+              <!-- ปุ่ม Logout -->
+              <a href="../Back-End/logout.php" class="btn btn-logout">LOGOUT</a>
+            </div>
+
+            <!-- End การจัดการร่วม -->
             <!-- /.sidebar -->
     </aside>

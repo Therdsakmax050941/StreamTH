@@ -1,0 +1,89 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "image",
+        "url": "https://www.streamth.co/wp-content/uploads/2023/09/FM_GF_001.jpg",
+        "aspectMode": "cover",
+        "size": "full",
+        "position": "absolute",
+        "offsetTop": "0px",
+        "offsetBottom": "0px",
+        "offsetEnd": "0px",
+        "offsetStart": "0px",
+        "aspectRatio": "1.5:1"
+      },
+      {
+        "type": "text",
+        "text": "Streaming World",
+        "weight": "bold",
+        "size": "xl",
+        "margin": "md",
+        "align": "center",
+        "offsetTop": "245px",
+        "position": "relative"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#0000FF",
+        "action": {
+          "type": "uri",
+          "label": "บริการของเรา",
+          "altUri": {
+            "desktop": "https://streamth.co/shop"
+          },
+          "uri": "https://liff.line.me/2000187314-xGVqX7ZZ"
+        },
+        "margin": "md",
+        "offsetTop": "250px"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#0000FF",
+        "action": {
+          "type": "message",
+          "label": "รายการสินค้าทั้งหมด",
+          "text": "สินค้าทั้งหมด"
+        },
+        "margin": "md",
+        "offsetTop": "248px"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#0000FF",
+        "action": {
+          "type": "message",
+          "label": "แจ้งการชำระเงิน",
+          "text": "แจ้งการชำระเงิน"
+        },
+        "margin": "md",
+        "offsetTop": "247px"
+      },
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#0000FF",
+        "action": {
+          "type": "uri",
+          "label": "เว็บไซต์",
+          "uri": "https://liff.line.me/2000187314-xGVqX7ZZ",
+          "altUri": {
+            "desktop": "https://www.streamth.co"
+          }
+        },
+        "margin": "md",
+        "offsetTop": "247px"
+      }
+    ],
+    "spacing": "20px",
+    "margin": "20px",
+    "height": "565px"
+  }
+}

@@ -18,6 +18,7 @@ require_once('../Back-End/function.php');
             <div class="mb-3">
                 <label for="group" class="form-label">กลุ่มลูกค้า:</label>
                 <select class="form-select" id="group" name="group">
+                    <option value="group1">ทั้งหมด</option>
                     <option value="group1">กลุ่ม 1</option>
                     <option value="group2">กลุ่ม 2</option>
                     <option value="group3">กลุ่ม 3</option>
@@ -40,5 +41,4 @@ require_once('../Back-End/function.php');
 </div>
 <!-- footer -->
 
-<?php 
-include_once './footer.php'; ?>
+<?php include_once './footer.php'; ?>

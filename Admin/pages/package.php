@@ -1,6 +1,5 @@
 <?php include_once('../pages/menu.php');
 require_once('../Back-End/function.php');
-
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" style="min-height: 2128.12px;">

@@ -1,0 +1,32 @@
+{
+    "type": "bubble",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "ดูเหมือนว่าคุณยังไม่ได้สมัครสมาชิก!!",
+          "align": "center"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "style": "primary",
+          "height": "sm",
+          "action": {
+            "type": "uri",
+            "label": "สมัครสมาชิก",
+            "uri": "https://liff.line.me/2000187314-rROp67QQ"
+          }
+        }
+      ],
+      "flex": 0
+    }
+  }

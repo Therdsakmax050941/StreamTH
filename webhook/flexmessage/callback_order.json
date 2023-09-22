@@ -1,0 +1,74 @@
+{
+  "type": "bubble",
+  "size": "giga",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "image",
+        "url": "https://www.streamth.co/wp-content/uploads/2023/09/FM_GF_002.jpg",
+        "aspectMode": "cover",
+        "size": "full",
+        "position": "absolute",
+        "offsetTop": "0px",
+        "offsetBottom": "0px",
+        "offsetEnd": "0px",
+        "offsetStart": "0px",
+        "aspectRatio": "1.5:1"
+      },
+      {
+        "type": "text",
+        "text": "ออเดอร์ของท่าน คือ : ",
+        "weight": "bold",
+        "size": "md",
+        "margin": "md",
+        "align": "center",
+        "offsetTop": "245px",
+        "position": "relative"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "message",
+              "label": "ยืนยันเลขออเดอร์",
+              "text": "cf:"
+            },
+            "style": "primary",
+            "color": "#0000FF"
+          }
+        ],
+        "backgroundColor": "#FFFFFF",
+        "borderWidth": "1px",
+        "borderColor": "#b7b7b7",
+        "cornerRadius": "4px",
+        "height": "50px",
+        "offsetTop": "248px"
+      }
+    ],
+    "spacing": "20px",
+    "margin": "20px",
+    "height": "380px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "separator"
+      },
+      {
+        "type": "text",
+        "text": "หมายเหตุ : กรุณาตรวจสอบเลขออเดอร์ให้ถูกต้องก่อนกดยืนยัน",
+        "align": "start",
+        "offsetTop": "sm",
+        "size": "xs",
+        "color": "#d00202"
+      }
+    ]
+  }
+}
