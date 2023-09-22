@@ -27,7 +27,21 @@
             Your browser does not support the video tag.
         </video>
         <h1>ขอบคุณที่สมัครสมาชิก</h1>
+        <p>กลับสู่หน้า LINE ภายใน <span id="countdown">10</span> วินาที</p>
         <a href="https://lin.ee/l5mnuzJ" class="btn btn-success">กลับสู่หน้า LINE</a>
     </div>
+    <script>
+  let countdown = 10; 
+  const countdownInterval = setInterval(() => {
+    if (countdown > 0) {
+      document.getElementById('countdown').innerText = countdown;
+      countdown--;
+    } else {
+      clearInterval(countdownInterval);
+      liff.closeWindow();
+    }
+  }, 1000);
+</script>
+
 </body>
 </html>

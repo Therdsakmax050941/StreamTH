@@ -5,7 +5,8 @@ function con_line()
     return $channelAccessToken;
 }
 
-function createRichMenu($richMenuData) {
+function createRichMenu($richMenuData)
+{
     // URL ของ API เพื่อสร้าง Rich Menu
     $apiUrl = 'https://api.line.me/v2/bot/richmenu';
     $channelAccessToken = con_line();
@@ -26,19 +27,20 @@ function createRichMenu($richMenuData) {
     curl_close($ch);
 
     if ($httpStatus === 200) {
-        return 'สร้าง Rich Menu สำเร็จ';
+        return 'สร้าง Rich Menu สำเร็จ' . $response;
     } else {
         return 'เกิดข้อผิดพลาดในการสร้าง Rich Menu' . ' HTTP Status Code: ' . $httpStatus . ' Response: ' . $response;
     }
 }
-function uploadRichMenuImage($richMenuId, $imagePath) {
+function uploadRichMenuImage($richMenuId, $imagePath)
+{
     $channelAccessToken = con_line();
     $apiUrl = 'https://api.line.me/v2/bot/richmenu/' . $richMenuId . '/content';
 
     $ch = curl_init($apiUrl);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: image/png',
+        'Content-Type: image/jpeg',
         'Authorization: Bearer ' . $channelAccessToken
     ]);
     curl_setopt($ch, CURLOPT_POSTFIELDS, file_get_contents($imagePath));
@@ -56,34 +58,31 @@ function uploadRichMenuImage($richMenuId, $imagePath) {
         return 'เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ Rich Menu' . ' HTTP Status Code: ' . $httpStatus . ', Response: ' . $response;
     }
 }
+// 1 = สร้าง
+// 2 = update รูป
+$i = 1;
+// สร้าง
+$richMenuJson = file_get_contents('./rich-json/richmenu_B.json');
 
-$richMenuData = [
-    "size" => [
-        "width" => 2500,
-        "height" => 1686
-    ],
-    "selected" => true,
-    "name" => "Rich Menu 1",
-    "chatBarText" => "Bulletin",
-    "areas" => [
-        [
-            "bounds" => [
-                "x" => 4,
-                "y" => 5,
-                "width" => 2496,
-                "height" => 1665
-            ],
-            "action" => [
-                "type" => "uri",
-                "uri" => "https://liff.line.me/2000187314-rROp67QQ"
-            ]
-        ]
-    ]
-];
- 
-//$result = createRichMenu($richMenuData); //create rich menu
-$richMenuId = 'richmenu-9d1b8c2485fd88a3f463fb3eddcaa2a0';
-$imagePath = '../image_logo/rich01.png';
-$result = uploadRichMenuImage($richMenuId, $imagePath);   //upload image
-echo $result;
+// อัปรูป
+$richMenuId = 'richmenu-6e1430949a5c68c10515606828dcd559';
+$imagePath = './images/rich-menu-B.jpg';
+
+if($i == 1){
+
+    $richMenuData = json_decode($richMenuJson, true);
+    
+    $result = createRichMenu($richMenuData);
+    if (strpos($result, 'สร้าง Rich Menu สำเร็จ') !== false) {
+        echo 'สร้าง Rich Menu สำเร็จ' . $result;
+    } else {
+        echo 'เกิดข้อผิดพลาดในการสร้าง Rich Menu: ' . $result;
+    } 
+}else{
+
+$result = uploadRichMenuImage($richMenuId, $imagePath); //upload image
+echo $result; 
+}
+
 ?>
+

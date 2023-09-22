@@ -30,7 +30,7 @@ function pushMsg($arrayHeader, $arrayPostData) {
     }
 }
 
-
+$channelAccessToken = con_line();
 if(isset($_SESSION['userId'])){
     $userId = $_SESSION['userId'];
     $arrayHeader = array();

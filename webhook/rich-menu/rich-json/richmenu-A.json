@@ -1,0 +1,71 @@
+{
+    "size": {
+      "width": 2500,
+      "height": 1686
+    },
+    "selected": true,
+    "name": "Richmenu-A",
+    "chatBarText": "Bulletin",
+    "areas": [
+      {
+        "bounds": {
+          "x": 51,
+          "y": 64,
+          "width": 1580,
+          "height": 711
+        },
+        "action": {
+          "type": "message",
+          "text": "สมัครสมาชิก"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1712,
+          "y": 59,
+          "width": 754,
+          "height": 729
+        },
+        "action": {
+          "type": "message",
+          "text": "บริการทั้งหมด"
+        }
+      },
+      {
+        "bounds": {
+          "x": 55,
+          "y": 843,
+          "width": 737,
+          "height": 771
+        },
+        "action": {
+          "type": "message",
+          "text": "วิธีการสมัคร"
+        }
+      },
+      {
+        "bounds": {
+          "x": 869,
+          "y": 839,
+          "width": 762,
+          "height": 780
+        },
+        "action": {
+          "type": "message",
+          "text": "เกี่ยวกับเรา"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1716,
+          "y": 839,
+          "width": 737,
+          "height": 780
+        },
+        "action": {
+          "type": "message",
+          "text": "FAQ"
+        }
+      }
+    ]
+  }

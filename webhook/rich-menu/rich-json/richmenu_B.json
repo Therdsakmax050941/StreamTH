@@ -1,0 +1,71 @@
+{
+    "size": {
+      "width": 2500,
+      "height": 1686
+    },
+    "selected": true,
+    "name": "Richmenu-B",
+    "chatBarText": "Bulletin",
+    "areas": [
+      {
+        "bounds": {
+          "x": 55,
+          "y": 136,
+          "width": 2381,
+          "height": 724
+        },
+        "action": {
+          "type": "message",
+          "text": "สมัครบริการเพิ่มเติม"
+        }
+      },
+      {
+        "bounds": {
+          "x": 59,
+          "y": 949,
+          "width": 547,
+          "height": 576
+        },
+        "action": {
+          "type": "uri",
+          "uri": "https://liff.line.me/2000187314-rROp67QQ"
+        }
+      },
+      {
+        "bounds": {
+          "x": 665,
+          "y": 949,
+          "width": 547,
+          "height": 576
+        },
+        "action": {
+          "type": "message",
+          "text": "สำหรับลูกค้าเก่า"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1275,
+          "y": 949,
+          "width": 551,
+          "height": 576
+        },
+        "action": {
+          "type": "message",
+          "text": "เกี่ยวกับเรา"
+        }
+      },
+      {
+        "bounds": {
+          "x": 1894,
+          "y": 936,
+          "width": 542,
+          "height": 594
+        },
+        "action": {
+          "type": "message",
+          "text": "FAQ"
+        }
+      }
+    ]
+  }

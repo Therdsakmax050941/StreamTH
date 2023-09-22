@@ -5,6 +5,7 @@ if (isset($_GET['userId'])) {
     $userId =  $_GET['userId'];
     $name = $_GET['name'];
     $image = $_GET['pictureUrl'];
+    $_SESSION['userId'] = $userId;
 
     $userExists = checkUserExists($userId);
     if ($userExists) {
@@ -13,7 +14,7 @@ if (isset($_GET['userId'])) {
 } else {
     header('location: https://liff.line.me/2000187314-rROp67QQ');
 }
-?>  
+?>
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +27,56 @@ if (isset($_GET['userId'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300&display=swap" rel="stylesheet">
-    <link href="../Line-Liff/css/form.css" rel="stylesheet/scss">
+    <style>
+        body {
+            font-family: 'Noto Sans Thai', sans-serif;
+            background: #f7f7f7;
+        }
+
+        .head-box {
+            margin: auto;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* ทำให้เนื้อหาอยู่ตรงกลางตามแนวแกนตั้ง */
+            text-align: center;
+            /* ปรับขนาดรูปภาพให้พอดีกับขนาดของพื้นที่ */
+        }
+
+        .form-box {
+            max-width: 500px;
+            margin: auto;
+            padding: 50px;
+            background: #ffffff;
+            border: 10px solid #f2f2f2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1,
+        p {
+            text-align: center;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+        }
+
+        .img_profile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            /* ทำให้รูปภาพเป็นวงกลม */
+            object-fit: cover;
+        }
+
+        .greeting {
+            margin-top: 20px;
+            /* ระยะห่างด้านบนของข้อความ "สวัสดีคุณ" */
+        }
+    </style>
 </head>
 
 <body>

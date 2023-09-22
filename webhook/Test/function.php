@@ -331,14 +331,19 @@ function uploadRichMenuImage($richMenuId, $imagePath) {
 }
 function getProductsFromDatabase() {
     $pdo = db_con();
+    
     // คำสั่ง SQL ในการดึงข้อมูลรายการสินค้าทั้งหมด
     $sql = "SELECT * FROM packages";
+    
     // สร้างคำสั่ง SQL โดยใช้ PDO
     $stmt = $pdo->prepare($sql);
+    
     // ประมวลผลคำสั่ง SQL
     $stmt->execute();
+    
     // ดึงข้อมูลรายการสินค้า
     $products = array();
+
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $product = array(
             "thumbnailImageUrl" => $row["thumbnail_url"],
@@ -354,10 +359,11 @@ function getProductsFromDatabase() {
         );
         $products[] = $product;
     }
+
+    // ปิดการเชื่อมต่อกับฐานข้อมูล
     $pdo = null;
     return $products;
 }
-
 function createFlexMessageFromProducts($products) {
     $carouselColumns = array();
 
@@ -383,97 +389,4 @@ function createFlexMessageFromProducts($products) {
 
     return json_encode($flexMessageData);
 }
-
-// Function เพื่อดึงข้อมูลจาก MySQL และส่ง Flex Message
-function getProductsAndSendFlexMessage($userId) {
-    $products = getProductsFromDatabase();
-    //$flexMessageJson = createFlexMessageFromProducts($products);
-    $altText = "รายการสินค้า";
-    $flexMessageJson = '{
-        "type": "template",
-        "altText": "this is a carousel template",
-        "template": {
-          "type": "carousel",
-          "imageSize": "contain",
-          "imageAspectRatio": "rectangle",
-          "columns": [
-            {
-              "thumbnailImageUrl": "https://streamth.co/Line-Liff/image/doc_png",
-              "text": "Product_Name",
-              "actions": [
-                {
-                  "type": "message",
-                  "label": "เลือก",
-                  "text": "Product_Name"
-                }
-              ],
-              "imageBackgroundColor": "#000000"
-            },
-            {
-              "thumbnailImageUrl": "https://streamth.co/Line-Liff/image/doc_png",
-              "text": "Product_Name2",
-              "actions": [
-                {
-                  "type": "message",
-                  "label": "เลือก",
-                  "text": "Product_Name"
-                }
-              ],
-              "imageBackgroundColor": "#000000"
-            }
-          ]
-        }
-      }';    
-    $to = $userId; // รหัสผู้ใช้ LINE ที่จะส่งถึง
-    $logFilePath = "log.txt"; // พาธไฟล์ log สำหรับบันทึกผลการส่ง Flex Message
-    // ส่ง Flex Message
-    $result = sendTemplateMessage($to, $flexMessageJson, $logFilePath);
-
-    if ($result) {
-        echo "ส่ง Flex Message สำเร็จ";
-    } else {
-        echo "การส่ง Flex Message ไม่สำเร็จ";
-    }
-}
-function sendTemplateMessage($to, $template, $logFilePath)
-{
-    $url = "https://api.line.me/v2/bot/message/push";
-
-    $headers = [
-        "Content-Type: application/json",
-        "Authorization: Bearer " . con_line()
-    ];
-
-    $data = [
-        "to" => $to,
-        "messages" => [
-            json_decode($template) // แปลง JSON ของ Template ให้เป็นอาร์เรย์
-        ]
-    ];
-
-    $dataJson = json_encode($data);
-
-    $ch = curl_init($url);
-
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $dataJson);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $response = curl_exec($ch);
-    file_put_contents($logFilePath, "Response: " . $response . "\n", FILE_APPEND);
-    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpStatus === 200) {
-        // บันทึกผลลัพธ์ลงในไฟล์ log
-        file_put_contents($logFilePath, "ส่ง Template Message สำเร็จ\n", FILE_APPEND);
-        return true; // ส่ง Template Message สำเร็จ
-    } else {
-        // บันทึกผลลัพธ์ลงในไฟล์ log
-        file_put_contents($logFilePath, "การส่ง Template Message ไม่สำเร็จ\n", FILE_APPEND);
-        return false; // การส่ง Template Message ไม่สำเร็จ
-    }
-}
-
 ?>
