@@ -329,112 +329,137 @@ function uploadRichMenuImage($richMenuId, $imagePath) {
     }
     file_put_contents($logFileName, $logMessage, FILE_APPEND);
 }
-function getProductsFromDatabase() {
+function getPackagesFromDatabase() {
+
     $pdo = db_con();
-    // คำสั่ง SQL ในการดึงข้อมูลรายการสินค้าทั้งหมด
+
     $sql = "SELECT * FROM packages";
-    // สร้างคำสั่ง SQL โดยใช้ PDO
+
     $stmt = $pdo->prepare($sql);
-    // ประมวลผลคำสั่ง SQL
+
     $stmt->execute();
-    // ดึงข้อมูลรายการสินค้า
+
     $products = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $product = array(
-            "thumbnailImageUrl" => $row["thumbnail_url"],
-            "text" => $row["product_name"],
+            "imageUrl" => $row["imageUrl"],
             "actions" => array(
                 array(
                     "type" => "message",
                     "label" => "เลือก",
-                    "text" => $row["product_name"]
+                    "text" => $row["product_data"]
                 )
             ),
-            "imageBackgroundColor" => "#000000"
+
         );
+
         $products[] = $product;
+
+        error_log("database: " . json_encode($product));
     }
     $pdo = null;
     return $products;
 }
 
-function createFlexMessageFromProducts($products) {
-    $carouselColumns = array();
+function getProductsFromDatabase($product_name) {
+    $pdo = db_con();
+
+    $sql = "SELECT * FROM products WHERE product_data = :product_name"; 
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":product_name", $product_name, PDO::PARAM_STR); 
+
+    $stmt->execute();
+
+    $products = array();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $product = array(
+            "imageUrl" => $row["imageUrl"],
+            "actions" => array(
+                array(
+                    "type" => "message",
+                    "label" => "เลือก",
+                    "text" => $row["product_key"]
+                )
+            ),
+        );
+
+        $products[] = $product;
+
+        error_log("database: " . json_encode($product));
+    }
+    $pdo = null;
+    return $products;
+}
+
+function createColumnsFromProducts($products) {
+    $columns = array();
 
     foreach ($products as $product) {
-        $carouselColumns[] = array(
-            "thumbnailImageUrl" => $product["thumbnailImageUrl"],
-            "text" => $product["text"],
-            "actions" => $product["actions"],
-            "imageBackgroundColor" => "#000000"
+        $column = array(
+            "imageUrl" => $product["imageUrl"],
+            "action" => array(
+                "type" => "message",
+                "label" => "เลือก",
+                "text" => $product["actions"][0]["text"]
+            )
         );
+        $columns[] = $column;
     }
+    error_log("get database to json: " . json_encode($columns));
+    return $columns;
+}
 
-    $flexMessageData = array(
+function getProductsAndSendImageCarousel($userId, $text) {
+    $products = getProductsFromDatabase($text);
+    $columns = createColumnsFromProducts($products);
+
+    $imageCarouselData = array(
         "type" => "template",
         "altText" => "รายการสินค้า",
         "template" => array(
-            "type" => "carousel",
-            "imageSize" => "contain",
-            "imageAspectRatio" => "rectangle",
-            "columns" => $carouselColumns
+            "type" => "image_carousel",
+            "columns" => $columns
         )
     );
 
-    return json_encode($flexMessageData);
-}
+    $logFilePath = "log.txt"; // พาธไฟล์ log สำหรับบันทึกผลการส่ง Image Carousel Message
 
-// Function เพื่อดึงข้อมูลจาก MySQL และส่ง Flex Message
-function getProductsAndSendFlexMessage($userId) {
-    $products = getProductsFromDatabase();
-    //$flexMessageJson = createFlexMessageFromProducts($products);
-    $altText = "รายการสินค้า";
-    $flexMessageJson = '{
-        "type": "template",
-        "altText": "this is a carousel template",
-        "template": {
-          "type": "carousel",
-          "imageSize": "contain",
-          "imageAspectRatio": "rectangle",
-          "columns": [
-            {
-              "thumbnailImageUrl": "https://streamth.co/Line-Liff/image/doc_png",
-              "text": "Product_Name",
-              "actions": [
-                {
-                  "type": "message",
-                  "label": "เลือก",
-                  "text": "Product_Name"
-                }
-              ],
-              "imageBackgroundColor": "#000000"
-            },
-            {
-              "thumbnailImageUrl": "https://streamth.co/Line-Liff/image/doc_png",
-              "text": "Product_Name2",
-              "actions": [
-                {
-                  "type": "message",
-                  "label": "เลือก",
-                  "text": "Product_Name"
-                }
-              ],
-              "imageBackgroundColor": "#000000"
-            }
-          ]
-        }
-      }';    
-    $to = $userId; // รหัสผู้ใช้ LINE ที่จะส่งถึง
-    $logFilePath = "log.txt"; // พาธไฟล์ log สำหรับบันทึกผลการส่ง Flex Message
-    // ส่ง Flex Message
-    $result = sendTemplateMessage($to, $flexMessageJson, $logFilePath);
+    // ส่ง Image Carousel Message และเช็คค่าผลลัพธ์
+    $result = sendTemplateMessage($userId, $imageCarouselData, $logFilePath);
 
     if ($result) {
-        echo "ส่ง Flex Message สำเร็จ";
+        file_put_contents($logFilePath, "สำเร็จ\n{$result}", FILE_APPEND);
     } else {
-        echo "การส่ง Flex Message ไม่สำเร็จ";
+        file_put_contents($logFilePath, "ไม่สำเร็จ\n{$result}", FILE_APPEND);
     }
 }
+function getPackagesAndSendImageCarousel($userId) {
+    $products = getPackagesFromDatabase();
+    $columns = createColumnsFromProducts($products);
+
+    $imageCarouselData = array(
+        "type" => "template",
+        "altText" => "รายการสินค้า",
+        "template" => array(
+            "type" => "image_carousel",
+            "columns" => $columns
+        )
+    );
+
+    $logFilePath = "log.txt"; // พาธไฟล์ log สำหรับบันทึกผลการส่ง Image Carousel Message
+
+    // ส่ง Image Carousel Message และเช็คค่าผลลัพธ์
+    $result = sendTemplateMessage($userId, $imageCarouselData, $logFilePath);
+
+    if ($result) {
+        file_put_contents($logFilePath, "ส่ง Package สำเร็จ\n{$result}", FILE_APPEND);
+    } else {
+        file_put_contents($logFilePath, "Package ไม่สำเร็จ\n{$result}", FILE_APPEND);
+    }
+}
+
+
 function sendTemplateMessage($to, $template, $logFilePath)
 {
     $url = "https://api.line.me/v2/bot/message/push";
@@ -447,7 +472,7 @@ function sendTemplateMessage($to, $template, $logFilePath)
     $data = [
         "to" => $to,
         "messages" => [
-            json_decode($template) // แปลง JSON ของ Template ให้เป็นอาร์เรย์
+            json_decode(json_encode($template), true) // แปลง JSON ของ Template ให้เป็นอาร์เรย์
         ]
     ];
 
@@ -462,6 +487,7 @@ function sendTemplateMessage($to, $template, $logFilePath)
 
     $response = curl_exec($ch);
     file_put_contents($logFilePath, "Response: " . $response . "\n", FILE_APPEND);
+    error_log("json to Line: " . json_encode($dataJson));
     $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
@@ -470,10 +496,99 @@ function sendTemplateMessage($to, $template, $logFilePath)
         file_put_contents($logFilePath, "ส่ง Template Message สำเร็จ\n", FILE_APPEND);
         return true; // ส่ง Template Message สำเร็จ
     } else {
-        // บันทึกผลลัพธ์ลงในไฟล์ log
+
         file_put_contents($logFilePath, "การส่ง Template Message ไม่สำเร็จ\n", FILE_APPEND);
         return false; // การส่ง Template Message ไม่สำเร็จ
     }
+}
+function getAllProductsByProductData() {
+    // กำหนดการเชื่อมต่อกับฐานข้อมูล
+    $pdo = db_con(); // แทน db_con() ด้วยฟังก์ชันที่ใช้ในการเชื่อมต่อกับฐานข้อมูลของคุณ
+
+    // คำสั่ง SQL เพื่อดึงข้อมูล product_data ทั้งหมด
+    $sql = "SELECT DISTINCT product_key FROM products";
+
+    // ประมวลผลคำสั่ง SQL
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    // สร้าง array เพื่อเก็บผลลัพธ์
+    $productDataArray = array();
+
+    // วนลูปเพื่อดึงข้อมูลแต่ละแถว
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // เพิ่มข้อมูล product_data ในแต่ละแถวเข้าใน array
+        $productDataArray[] = $row["product_key"];
+    }
+
+    // ปิดการเชื่อมต่อกับฐานข้อมูล
+    $pdo = null;
+
+    // ส่งผลลัพธ์กลับเป็น array
+    return $productDataArray;
+}
+function getProduct($product_data,$rowdata) {
+  // เชื่อมต่อฐานข้อมูล
+  $logFilePath = 'log.txt';
+  $pdo = db_con(); // สร้างฟังก์ชัน db_con() ของคุณเองเพื่อเชื่อมต่อกับฐานข้อมูล
+ 
+  // สร้างคำสั่ง SQL สำหรับดึงราคาสินค้าจากฐานข้อมูล
+  $sql = "SELECT $rowdata FROM products WHERE product_key = :product_data";
+
+  // เตรียมคำสั่ง SQL สำหรับการดึงราคา
+  $stmt = $pdo->prepare($sql);
+
+  // ผูกค่า `$product_data` กับพารามิเตอร์ในคำสั่ง SQL
+  $stmt->bindParam(":product_data", $product_data, PDO::PARAM_STR);
+
+  // ประมวลผลคำสั่ง SQL สำหรับการดึงราคา
+  $stmt->execute();
+
+  // ดึงข้อมูลราคาจากผลลัพธ์
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $pdo = null;
+  // ตรวจสอบว่าข้อมูลราคาถูกดึงมาหรือไม่
+  if ($row) {
+      return $row[$rowdata]; // ส่งค่าราคากลับ
+  } else {
+      return false; // ถ้าไม่พบข้อมูลราคา
+  }
+}
+function createNewOrder($User_ID, $product_key, $status) {
+    // เชื่อมต่อฐานข้อมูล
+    $pdo = db_con(); // สร้างฟังก์ชัน db_con() ของคุณเองเพื่อเชื่อมต่อกับฐานข้อมูล
+    $amount = getProduct($product_key, "price");
+    get_log ("amount: " , $amount);
+    if ($amount === false) {
+        return false; // ไม่สามารถหาข้อมูลราคาสินค้าได้
+    }
+
+    // สร้างคำสั่ง SQL สำหรับการเพิ่มข้อมูลใหม่ลงในตาราง
+    $sql = "INSERT INTO orders_detail (User_ID, product_data, amount, status) VALUES (:User_ID, :product_data, :amount, :status)";
+
+    // เตรียมคำสั่ง SQL สำหรับการเพิ่มข้อมูลใหม่
+    $stmt = $pdo->prepare($sql);
+
+    // ผูกค่าที่ต้องการเพิ่มใหม่กับพารามิเตอร์ในคำสั่ง SQL
+    $stmt->bindParam(":User_ID", $User_ID, PDO::PARAM_STR);
+    $stmt->bindParam(":product_data", $product_key, PDO::PARAM_STR); // แก้ไขเป็น $product_key แทน product_data
+    $stmt->bindParam(":amount", $amount, PDO::PARAM_STR); // แก้ไขเป็น PDO::PARAM_DECIMAL
+    $stmt->bindParam(":status", $status, PDO::PARAM_STR);
+
+    // ประมวลผลคำสั่ง SQL สำหรับการเพิ่มข้อมูลใหม่
+    $result = $stmt->execute();
+
+    if ($result) {
+        $order_id = $pdo->lastInsertId(); // รับค่า order_id ที่ถูกสร้างโดยอัตโนมัติ
+        $pdo = null;
+        return $order_id; // ส่งค่า order_id กลับ
+    } else {
+        return false;
+    }
+}
+function get_log($title,$data ){
+    $logFilePath = 'log.txt';
+    file_put_contents($logFilePath, $title ." ". $data ."\n", FILE_APPEND);
 }
 
 ?>

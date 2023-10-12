@@ -20,6 +20,8 @@ $richMenuId_A = 'richmenu-800a9dac81e6ebbe2749228858a18f85';
 $richMenuId_B = 'richmenu-6e1430949a5c68c10515606828dcd559';
 $branchId = '10132'; //slipok
 $apiKey = 'SLIPOKHD9SG2I'; //slipok
+$PackageArray = array('hbogo', 'disney', 'gagaoolala', 'hbogo', 'joox', 'monomax', 'netflix', 'prime', 'spotify', 'trueid', 'viu', 'wetv', 'youku', 'youtube');
+
 
 $messages = [];
 $profileJson = Get_Profile($userId);
@@ -30,7 +32,8 @@ if ($profileJson == true) {
     //$imagePath = '../webhook/images/rich-menu-A.jpg'; // เปลี่ยนเป็นพาธของรูปภาพ Rich Menu ของคุณ
     //$result = uploadRichMenuImage($richMenuId, $imagePath);
 
-    if ($text == 'สมัครบริการเพิ่มเติม') {
+    if ($text == 'ทดสอบ') {
+        
     } elseif ($text == 'แจ้งการชำระเงิน' && $messageType == 'text') {
         $messages['replyToken'] = $replyToken;
         $flexMessageJsonPath = './flexmessage/form_order.json'; // เปลี่ยนเป็นเส้นทางที่ถูกต้องถ้าไฟล์อยู่ในโฟลเดอร์อื่น
@@ -56,7 +59,7 @@ if ($profileJson == true) {
                 mkdir($folderPath, 0755, true);
             }
 
-            // ย้ายไฟล์ที่บันทึกมาไปยังโฟลเดอร์ที่คุณกำหนด
+            // ย้ายไฟล์ที่บันทึกมาไปยังโฟลเดอร์ $newFilePath
             $newFilePath = $folderPath . $fileName;
             if (rename($uploadedImagePath, $newFilePath)) {
                 $isSlipAuthentic = checkSlipAuthenticity($branchId, $apiKey, $newFilePath);
@@ -95,7 +98,6 @@ if ($profileJson == true) {
         $results = sendFlexMessage($userId, $encodedJson, $logFilePath);
     } elseif (preg_match('/cf\s*:\s*(\d+)/', $text, $matches)) {
         $order = $matches[1];
-
         $messages['replyToken'] = $replyToken;
         $messages['messages'][] = getFormatTextMessage("กำลังบันทึกข้อมูลเพื่อเริ่มรายการแจ้งยอดโอน");
         $messages['messages'][] = getFormatTextMessage("กรุณาส่งสลิปเพื่อยืนยันการชำระเงิน");
@@ -106,9 +108,29 @@ if ($profileJson == true) {
         $flexMessageJson = file_get_contents('./flexmessage/form.json'); // อ่าน JSON จากไฟล์
         $logFilePath = "flex_message_log.txt"; // ไฟล์ log
         $result = sendFlexMessage($userId, $flexMessageJson, $logFilePath); // ส่ง Flex Message        
-    } elseif ($text == 'สินค้า') {
-        getProductsAndSendFlexMessage($userId);
+    } elseif ($text == 'สมัครบริการเพิ่มเติม') {
+        getPackagesAndSendImageCarousel($userId);
     } else {
+        $ProductArray = getAllProductsByProductData();
+        if (in_array($text, $PackageArray)) {
+            getProductsAndSendImageCarousel($userId,$text);
+            exit();
+        }
+        elseif(in_array($text, $ProductArray)){
+        $order = createNewOrder($userId,$text,'order_a'); 
+        $image = getProduct($text, "imageUrl");
+        $messages['replyToken'] = $replyToken;
+        $flexMessageJsonPath = './flexmessage/callback_order.json';
+        $flexMessageJson = file_get_contents($flexMessageJsonPath);
+        
+        $flexMessageJson = str_replace("https://www.streamth.co/wp-content/uploads/2023/09/FM_GF_002.jpg", $image, $flexMessageJson);
+
+        $flexMessageJson = str_replace("ออเดอร์ของท่าน คือ :", "ออเดอร์ของท่าน คือ : $order", $flexMessageJson);
+        $flexMessageJson = str_replace("cf:", "cf: $order", $flexMessageJson);
+        $flexMessageArray = json_decode($flexMessageJson, true);
+        $encodedJson = json_encode($flexMessageArray);
+        $results = sendFlexMessage($userId, $encodedJson, $logFilePath);
+        }
         $message = getFormatTextMessage("สวัสดีคุณ " . $profileJson['displayName']);
         $results = sentMessage(json_encode(['replyToken' => $replyToken, 'messages' => [$message],]), $LINEDatas);
     }
